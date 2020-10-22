@@ -9,7 +9,7 @@ __doc__ = "this modul is in charge of collecting config options and settings for
 __status__ = "Development"#should be one of 'Prototype' 'Development' 'Production' 'Deprecated' 'Release'
 __version__ = "3.0.0"# version number,date or about last modification made compared to the previous version
 __license__ = "public domain"# ref to an official existing License
-__date__ = "2016-02-25"#started creation date / year month day
+__date__ = "2017"#started creation date / year month day
 __author__ = "N-zo syslog@laposte.net"#the creator origin of this prog,
 __maintainer__ = "Nzo"#person who curently makes improvements, replacing the author
 __credits__ = []#passed mainteners and any other helpers
@@ -185,18 +185,39 @@ def get_cfg(default_initfile,system_initfile,user_initfile):
 	cfg.read_optional_configfiles([system_initfile,user_initfile])
 	
 	
-	#cfg.add_arg('input_file',str,0,'what files should be use for input data')
-	#cfg.add_arg('output_file',str,1,'where to write a file containing output data')
+	cfg.add_arg('pathname',str,1,'input file or directory (substituted by - for using pipe input)')
 	#cfg.add_valu('-v','--version',int,3,'assign three version numbers to the file','NUMBER','FILE','version')
 	#cfg.add_valu('-e','--edit',bool,1,'define if the file need to be edited or not','yes/no','FILE','edit')
 	#cfg.add_negative_flag('-u','--unsafe','disable the safety','FILE','safety')
-	
+
+	cfg.add_choice('-o','--mode',str,1,('check','return','write'),'can choose mode: check, return or write','APPLICATION','mode')
+	cfg.add_valu('-sc','--sp_conv',str,1,'replace special characters by something else','STRING','APPLICATION','sp_conv')
+
+	cfg.add_positive_flag('-A','--dir_ascii','not allow accented characters in directories names','DIRECTORIES','ascii')
+	cfg.add_positive_flag('-B','--dir_spaces','allow space in directories names','DIRECTORIES','spaces')
+	cfg.add_valu('-C','--dir_case',int,1,'switch directories characters names case (1=upper,-1=lower,0=no change)','NUMBER','DIRECTORIES','case')
+	cfg.add_valu('-E','--dir_ext',int,1,'maximum numbers of .ext next to directories names ( -1 any )','NUMBER','DIRECTORIES','ext')
+	cfg.add_valu('-M','--dir_merge',str,1,'merge duplicates characters in directories names (ex: -- becomes -)','STRING','DIRECTORIES','merge')
+	cfg.add_valu('-D','--dir_eraze',str,1,'delete specified characters in the directories names','STRING','DIRECTORIES','eraze')
+	cfg.add_valu('-S','--dir_strip',str,1,'remove characters at the beginning or end of directories names','STRING','DIRECTORIES','strip')
+	cfg.add_valu('-R','--dir_conv',str,1,'replace characters or strings in directories names','STRING','DIRECTORIES','conv')
+	cfg.add_valu('-RE','--dir_conv_ext',str,1,'replace characters or strings in directories names extensions','STRING','DIRECTORIES','conv_ext')
+
+	cfg.add_positive_flag('-a','--ascii','not allow accented characters in files names','FILES','ascii')
+	cfg.add_positive_flag('-b','--spaces','allow space in files names','FILES','spaces')
+	cfg.add_valu('-c','--case',int,1,'switch files characters names case (1=upper,-1=lower,0=no change)','NUMBER','FILES','case')
+	cfg.add_valu('-e','--ext',int,1,'maximum numbers of .ext next to files names ( -1 any )','NUMBER','FILES','ext')
+	cfg.add_valu('-m','--merge',str,1,'merge duplicates characters in files names (ex: -- becomes -)','STRING','FILES','merge')
+	cfg.add_valu('-d','--eraze',str,1,'delete specified characters in the files names','STRING','FILES','eraze')
+	cfg.add_valu('-s','--strip',str,1,'remove characters at the beginning or end of files names','STRING','FILES','strip')
+	cfg.add_valu('-r','--conv',str,1,'replace characters or strings in files names','STRING','FILES','conv')
+	cfg.add_valu('-re','--conv_ext',str,1,'replace characters or strings in files names extensions','STRING','FILES','conv_ext')
+
 	cfg.add_positive_flag('-l','--local','will not create files outside program directory','SYSTEM','local')
 	
-	cfg.add_choice('-fv','--logfile_verbosity',int,1,(0,1,2,3,4,5),'output verbosity level','VERBOSITY','logfile')
-	cfg.add_choice('-tv','--terminal_verbosity',int,1,(0,1,2,3,4,5),'output verbosity level','VERBOSITY','terminal')
-	cfg.add_choice('-sv','--syslog_verbosity',int,1,(0,1,2,3,4,5),'output verbosity level','VERBOSITY','syslog')
-	
+	cfg.add_choice('-fv','--logfile_verbosity',int,1,(0,1,2,3,4,5),'logfile output verbosity level','VERBOSITY','logfile')
+	cfg.add_choice('-tv','--terminal_verbosity',int,1,(0,1,2,3,4,5),'terminal output verbosity level','VERBOSITY','terminal')
+	cfg.add_choice('-sv','--syslog_verbosity',int,1,(0,1,2,3,4,5),'syslog output verbosity level','VERBOSITY','syslog')
 	
 	### os.path.isfile os.path.isdir etc can be use for check if filepath exist
 	### but we will have to check their existence again later, before starting to use them
