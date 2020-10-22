@@ -1,70 +1,35 @@
 ![Logo icon](contents/logo/logo.svg "Software-name logo")
-# Software-name
-**fancy slogan / ex: jQuery — the new JavaScript Wave**
+# Renamez
+**Names Cleaner**
 
 
 ## 🚩 Intro
-A short summary presentation of what this software is.  
-*(if the name is an acronym or abbreviation, give full meaning)*  
-
-
-## 📋 Glossary
- - Computer  
-	Device working on binaries information.
- - Fire  
-	Ignited gas.
- - Robots  
-	Autonomous machines,made to be slaves of humans.
+Correct files and directories names.
 
 
 ## ℹ️ Description
- - the goal of this project
- - Who can be interested by this  project
- - what benefit from using it
- - how it work
+ - mode:'check'  
+	Print pathnames of not correct names otherwise nothing.  
+ - mode:'return'  
+	Returns a new correct name or the same name.  
+ - mode:'write'  
+	Change the name on the disk if necessary.  
 
 
 ## 📝 Note
- - The software block and freeze when all keys are pressed at same time.  
-	Do Not press all the keyboard keys at same time.
- - If the computer shutdown while using this Software  
-	All the unsaved data will be lost.
- - Do not use a hammer for trying to fix any bugs  
-	It leads to software destruction and may damage your device.
-
-
-## 👉 References:
- - [maxtof photo bank](http://www.maxtof.com)  
-	Website full of interesting photos and text files for related textures images.
- - Cycles and Quasi-Cycles Glosses   
-	Evaluation of  semi-structured system for fully automatics. J. Muresan. Informatics Association 2001, pp. 324–328.
- - [WW2 database](http://www.ww2-ontopia.net)  
-	Pictures and video of the real vehicles.
-
-## 👀 See also:
- - [Supermax editor](http://www.fenix-sw.com/sm-ed.html)  
-	This software is efficient for editing the files of this project..
- - [countries-db](http://www.countries.com/db)  
-	Unicode countries database related to the countries flags.
- - [pc-lock](http://www.secu.com)  
-	An optional device for improving the security with this software.
+ - This software works by Command Line Interface (CLI).  
+ - Have been tested mostly on Linux system but may operate on others compatible platforms.  
+ - But it's not guaranteed without bugs and any futures improvements are not sure.  
+ - Length restriction of names and extensions may vary depending on the operating system:  
+	 - 8 characters for the name and 3 for the extension under DOS and Windows 3.1  
+	 - 256 characters for name and extension under Windows 95, 98 and NT  
+	 - 256 characters as well on Unix systems  
+ - dots are extension markers, it can cause bug if a name includes a series of dots.  
+	(currently this program not consider names with a prefix dot for hiding)  
+ - There is no minimum restriction on numbers of extensions.  
+	Names with less or no extension are considered correct even if maximum ext parameter is set higher.  
 
 
 ## 📜 History
- - Origin:
-	- The projet was initiate by [Mark Borello](mailto:mbo@msn.com) for [Frikaia.com](https://www.frikaia.com) but the main creators and author is [Nizi Maza](https://github.com/nizi) .
-
- - Development:
-	- In 2010  [Damien ford](mailto:damfo@gmail.com) continued the project with the help of [Tim Devens](https://github.com/timdev)  for the management.
-	- The project moved on [Gitswitch](https://gitswitch.com) last summer
-	- And now  [Microhard](https://www.microhard.com) is the official publisher
-
-
-## ❤️ Special thanks
- - [Wikipedia](https://www.wikipedia.org)  
-	Gave us so much knowledge...
- - The R.S.A.  
-	For providing infrastructure material and active solidarity.
- - Janice Bastos  
-	So much grateful for all the love given.
+- Projet made by [N-z0](mailto:syslog@laposte.net) in 2020, Because nothing else corresponded to his needs.  
 
