@@ -3,11 +3,14 @@
 **Names Cleaner**
 
 
-## 🚩 Intro
-Correct files and directories names.
-
-
 ## ℹ️ Description
+You may need to use this program to clean up file and directory names.  
+Because normally all systems can handle *UTF8* names correctly,  
+But not the old *FAT* system and not all clouds/backup services.  
+And the distinction between lowercase and uppercase is not always made.  
+And some local programs also have problems with names including special characters.  
+Or maybe you just need easier reading and memorizing of names.  
+
  - mode:'check'  
 	Print pathnames of not correct names otherwise nothing.  
  - mode:'return'  
