@@ -202,7 +202,8 @@ def get_cfg(default_initfile,system_initfile,user_initfile):
 	cfg.add_valu('-S','--dir_strip',str,1,'remove characters at the beginning or end of directories names','STRING','DIRECTORIES','strip')
 	cfg.add_valu('-R','--dir_conv',str,1,'replace characters or strings in directories names','STRING','DIRECTORIES','conv')
 	cfg.add_valu('-RE','--dir_conv_ext',str,1,'replace characters or strings in directories names extensions','STRING','DIRECTORIES','conv_ext')
-
+	cfg.add_choice('-t','--type',str,1,('file','folder','auto'),'can choose type of pathname: file,folder or auto','APPLICATION','type')
+	
 	cfg.add_positive_flag('-a','--ascii','not allow accented characters in files names','FILES','ascii')
 	cfg.add_positive_flag('-b','--spaces','allow space in files names','FILES','spaces')
 	cfg.add_valu('-c','--case',int,1,'switch files characters names case (1=upper,-1=lower,0=no change)','NUMBER','FILES','case')

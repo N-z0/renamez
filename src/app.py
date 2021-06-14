@@ -74,6 +74,7 @@ class Application():
 		self.pathname= cfg['ARG']['pathname']
 		self.mode= cfg['APPLICATION']['mode']
 		self.sp_conv= cfg['APPLICATION']['sp_conv']
+		self.type= cfg['APPLICATION']['type']
 		self.cfg= {}
 		self.cfg[checks.TYPE_DIRECTORY]=cfg['DIRECTORIES']
 		self.cfg[checks.TYPE_FILE]=cfg['FILES']
@@ -112,11 +113,17 @@ class Application():
 			
 	def proceed(self,pathname):
 		"""operate on one pathname"""
-		if not checks.pathname(pathname) :
+		if not checks.pathname(pathname) and self.type=="auto" :
 			logger.log_error(LOG1.format(pathname))
 		else :
 			path=pathnames.get_path(pathname)
-			tip=checks.get_type(pathname)
+			if self.type=="file" :
+				tip=checks.TYPE_FILE
+			elif self.type=="folder" :
+				tip=checks.TYPE_DIRECTORY
+			else :
+				### self.type=="auto"
+				tip=checks.get_type(pathname)
 			full_name=pathnames.get_name(pathname)
 			#print(full_name)
 			exts_names=[ext for ext in pathnames.get_name_ext(pathname) if ext ]
