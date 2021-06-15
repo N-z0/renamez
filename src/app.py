@@ -37,6 +37,7 @@ LOG1='Not Existing: {}'
 LOG2='Working On: {} {}'
 LOG3='New Name: {}'
 LOG4='Output Mode: {}'
+LOG5='A file or directory with the same name already exists : {}'
 
 MODE_CHECK='check'
 MODE_RETURN='return'
@@ -144,8 +145,12 @@ class Application():
 			elif self.mode==MODE_RETURN :
 				tty.print_info(new_name)
 			elif self.mode==MODE_WRITE :
-				### faut debuter par le changement de nom des files, sinon problem avec les nouvo nom de rep
-				actions.rename(path,full_name,new_name)
+				if not new_name==full_name :
+					try :
+						### must start by changing the name of the files, otherwise problem with new folders names
+						actions.rename(path,full_name,new_name)
+					except FileExistsError :
+						logger.log_error( LOG5.format(pathnames.join_pathname(path,new_name)) )
 			else :
 				pass
 		
