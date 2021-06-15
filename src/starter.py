@@ -161,7 +161,7 @@ def get_data_dir(parent_path,prog_name):
 	pathnames=[]
 	### this directory contain unalterable program data
 	pathnames.append( appdirs.user_data_dir(prog_name,PROG_AUTHOR) )# XDG Specification: ~/.local/share/prog_name
-	pathnames.append( appdirs.site_data_dir(prog_name,PROG_AUTHOR) )# should be: /usr/share but return /usr/share/xfce4
+	pathnames.append( appdirs.site_data_dir(prog_name,PROG_AUTHOR,multipath=True).split(":")[-1] )# by default return /usr/share/xfce4/progname with multipath /usr/share/xfce4/progname:/usr/share/xfce/progname:/usr/local/share/progname:/usr/share/progname:/var/lib/snapd/desktop/progname:/usr/share/progname
 	pathnames.append( os.path.join(parent_path,DATA_DIRECTORY) )
 	#print(pathnames)
 	return pathnames
@@ -170,7 +170,7 @@ def get_init_dir(parent_dir,prog_name):
 	"""get the init paths"""
 	pathnames=[]
 	pathnames.append( appdirs.user_config_dir(prog_name,PROG_AUTHOR) ) # XDG Specification:  ~/.config/prog_name/
-	pathnames.append( appdirs.site_config_dir(prog_name,PROG_AUTHOR) ) # XDG Specification:  /etc/xdg/prog_name/
+	pathnames.append( appdirs.site_config_dir(prog_name,PROG_AUTHOR,multipath=True).split(":")[-1] )# by default return /etc/xdg/xdg-xfce/progname with multipath /etc/xdg/xdg-xfce/progname:/etc/xdg/progname:/etc/xdg/progname
 	pathnames.append( os.path.join(parent_dir,CFG_DIRECTORY) )
 	#print(pathnames)
 	return pathnames
@@ -192,7 +192,9 @@ def get_cfg(default_initfile,system_initfile,user_initfile):
 
 	cfg.add_choice('-o','--mode',str,1,('check','return','write'),'can choose mode: check, return or write','APPLICATION','mode')
 	cfg.add_valu('-sc','--sp_conv',str,1,'replace special characters by something else','STRING','APPLICATION','sp_conv')
-
+	cfg.add_choice('-t','--type',str,1,('file','folder','auto'),'can choose type of pathname: file,folder or auto','APPLICATION','type')
+	
+	cfg.add_positive_flag('-U','--dir_uncode','decode URL special characters in directories names','DIRECTORIES','uncode')
 	cfg.add_positive_flag('-A','--dir_ascii','not allow accented characters in directories names','DIRECTORIES','ascii')
 	cfg.add_positive_flag('-B','--dir_spaces','allow space in directories names','DIRECTORIES','spaces')
 	cfg.add_valu('-C','--dir_case',int,1,'switch directories characters names case (1=upper,-1=lower,0=no change)','NUMBER','DIRECTORIES','case')
@@ -202,8 +204,8 @@ def get_cfg(default_initfile,system_initfile,user_initfile):
 	cfg.add_valu('-S','--dir_strip',str,1,'remove characters at the beginning or end of directories names','STRING','DIRECTORIES','strip')
 	cfg.add_valu('-R','--dir_conv',str,1,'replace characters or strings in directories names','STRING','DIRECTORIES','conv')
 	cfg.add_valu('-RE','--dir_conv_ext',str,1,'replace characters or strings in directories names extensions','STRING','DIRECTORIES','conv_ext')
-	cfg.add_choice('-t','--type',str,1,('file','folder','auto'),'can choose type of pathname: file,folder or auto','APPLICATION','type')
 	
+	cfg.add_positive_flag('-u','--uncode','decode URL special characters in files names','FILES','uncode')
 	cfg.add_positive_flag('-a','--ascii','not allow accented characters in files names','FILES','ascii')
 	cfg.add_positive_flag('-b','--spaces','allow space in files names','FILES','spaces')
 	cfg.add_valu('-c','--case',int,1,'switch files characters names case (1=upper,-1=lower,0=no change)','NUMBER','FILES','case')

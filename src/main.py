@@ -57,6 +57,7 @@ class Main():
 	
 	def get_correct_name(self,old_name,old_ext_names,cfg,sp_char):
 		#print(base_name,ext_names,max_ext)
+		uncode=cfg["uncode"]
 		ascii_only=cfg["ascii"]
 		spaces=cfg["spaces"]
 		case=cfg["case"]
@@ -66,13 +67,15 @@ class Main():
 		convert_tabl=cfg["conv"]
 		max_dots=cfg["ext"]
 		convert_ext_tabl=cfg["conv_ext"]
-
+		
 		names_list= self.undots(old_name,old_ext_names,max_dots)
 		#print(names_list)
 		names_qantum=len(names_list)
 		for name_index in range(names_qantum) :
 			name=None
 			new_name=names_list[name_index]
+			if uncode :
+				new_name=self.uncode(new_name)
 			while not new_name==name :
 				name=new_name
 				new_name=self.normalize(new_name,sp_char)
@@ -97,7 +100,7 @@ class Main():
 				ext_name=names_list[ext_index]
 				new_ext_name=self.convert(ext_name,convert_ext_tabl)
 				names_list[ext_index]=new_ext_name
-			
+		
 		return names_list
 
 
@@ -120,6 +123,11 @@ class Main():
 				return [base_name]+ext_names
 
 
+	def uncode(self,name):
+		"""decode URL special characters"""
+		return text.decode_url(name)
+	
+	
 	def ascii(self,name):
 		"""Replace special accents characters by their closest ASCII equivalents"""
 		return text.to_ascii(name)
@@ -194,7 +202,7 @@ class Main():
 				name=new_name
 		return new_name
 
-
+	
 	def normalize(self,name,sp_char):
 		"""substitute special system characters"""
 		bad_chars=CONTROL_CHAR+SYSTEM_CHAR+QUOTE_CHAR+DOUBLE_QUOTE_CHAR
