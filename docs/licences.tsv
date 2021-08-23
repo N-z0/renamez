@@ -1,0 +1,6 @@
+#File	#date	#Source	#Software	#Creator	#Contributors	#Owner	#Rights	#RightsURL	#ContactURL
+*	2021-04-24					N-z0	Rights specified by the local license file	license.md	syslog@laposte.net
+docs/contents/logo/logo.svg	2019			N-z0			CC0 1.0	http://creativecommons.org/publicdomain/zero/1.0/	syslog@laposte.net
+src/app.py	2017			N-zo syslog@laposte.net	Nzo		public domain		syslog@laposte.net
+src/main.py	2017			N-zo syslog@laposte.net	Nzo		public domain		syslog@laposte.net
+src/starter.py	2017			N-zo syslog@laposte.net	Nzo		public domain		syslog@laposte.net
