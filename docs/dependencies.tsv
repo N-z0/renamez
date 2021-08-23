@@ -1,3 +1,5 @@
 #Optional	#Name	#VersionMini	#VersionMaxi	#Address
 false	appdirs	1.4.3		https://pypi.org/project/appdirs/
 false	commonz	1.0.0	2.0.0	https://pypi.org/project/commonz
+true	Zenity			https://help.gnome.org/users/zenity/
+true	KDialog			https://apps.kde.org/fr/kdialog/
