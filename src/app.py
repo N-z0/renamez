@@ -7,7 +7,7 @@
 
 __doc__ = "provide a user interface for the main module."#information describing the purpose of this module
 __status__ = "Development"#should be one of 'Prototype' 'Development' 'Production' 'Deprecated' 'Release'
-__version__ = "3.0.0"# version number,date or about last modification made compared to the previous version
+__version__ = "3.0.1"# version number,date or about last modification made compared to the previous version
 __license__ = "public domain"# ref to an official existing License
 __date__ = "2017"#started creation date / year month day
 __author__ = "N-zo syslog@laposte.net"#the creator origin of this prog,
@@ -38,6 +38,7 @@ LOG2='Working On: {} {}'
 LOG3='New Name: {}'
 LOG4='Output Mode: {}'
 LOG5='A file or directory with the same name already exists : {}'
+LOG6='Mode unknow: {}'
 
 MODE_CHECK='check'
 MODE_RETURN='return'
@@ -58,6 +59,7 @@ class Application():
 	"""main software application as object"""
 	def __init__(self,user_name,prog_name,cfg,dirs,env):
 		"""initialization of the application"""
+		self.exit_stat=os.EX_OK
 		
 		### setup names
 		self.prog_name=prog_name
@@ -99,6 +101,11 @@ class Application():
 					#print(self.cfg[tip_index][conv_index])
 	
 	
+	def set_exit_stat(self,new_exit_stat):
+		if self.exit_stat==os.EX_OK :
+			self.exit_stat=new_exit_stat
+	
+	
 	def run(self):
 		"""operates the software object"""		
 		if self.pathname==CMD_PIPE_ARG :
@@ -110,12 +117,14 @@ class Application():
 					break
 		else :
 			self.proceed(self.pathname)
-			
-			
+		return self.exit_stat
+	
+	
 	def proceed(self,pathname):
 		"""operate on one pathname"""
 		if not checks.pathname(pathname) and self.type=="auto" :
 			logger.log_error(LOG1.format(pathname))
+			self.set_exit_stat(os.EX_NOINPUT) # input file did not exist or was not readable.
 		else :
 			path=pathnames.get_path(pathname)
 			if self.type=="file" :
@@ -141,7 +150,6 @@ class Application():
 			if self.mode==MODE_CHECK :
 				if not new_name==full_name :
 					tty.print_info(pathname)
-					#return  os.EX_DATAERR #	Exit code that means the input data was incorrect.
 			elif self.mode==MODE_RETURN :
 				tty.print_info(new_name)
 			elif self.mode==MODE_WRITE :
@@ -151,8 +159,8 @@ class Application():
 						actions.rename(path,full_name,new_name)
 					except FileExistsError :
 						logger.log_error( LOG5.format(pathnames.join_pathname(path,new_name)) )
+						self.set_exit_stat(os.EX_CANTCREAT) # a user specified output file could not be created.
 			else :
-				pass
-		
-		return os.EX_OK
+				logger.log_error( LOG6.format(self.mode) )
+				self.set_exit_stat(os.EX_USAGE) # the command was used incorrectly, such as when the wrong number of arguments are given.
 
