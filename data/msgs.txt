@@ -1,0 +1,12 @@
+this program was designed for Linux operating system.[{} detected]
+logs systems are setup
+starting
+ending
+
+Not Existing {}
+Working On {} {}
+New Name: {}
+Output Mode: {}
+A file or directory with the same name already exists : {}
+Mode unknow: {}
+Not a file Not a directory: {}
