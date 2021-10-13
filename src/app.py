@@ -7,7 +7,7 @@
 
 __doc__ = "provide a user interface for the main module."#information describing the purpose of this module
 __status__ = "Development"#should be one of 'Prototype' 'Development' 'Production' 'Deprecated' 'Release'
-__version__ = "3.0.0"# version number,date or about last modification made compared to the previous version
+__version__ = "3.0.2"# version number,date or about last modification made compared to the previous version
 __license__ = "public domain"# ref to an official existing License
 __date__ = "2017"#started creation date / year month day
 __author__ = "N-zo syslog@laposte.net"#the creator origin of this prog,
@@ -38,6 +38,8 @@ LOG2='Working On: {} {}'
 LOG3='New Name: {}'
 LOG4='Output Mode: {}'
 LOG5='A file or directory with the same name already exists : {}'
+LOG6='Mode unknow: {}'
+LOG7='Not a file Not a directory: {}'
 
 MODE_CHECK='check'
 MODE_RETURN='return'
@@ -58,6 +60,7 @@ class Application():
 	"""main software application as object"""
 	def __init__(self,user_name,prog_name,cfg,dirs,env):
 		"""initialization of the application"""
+		self.exit_stat=os.EX_OK
 		
 		### setup names
 		self.prog_name=prog_name
@@ -99,6 +102,11 @@ class Application():
 					#print(self.cfg[tip_index][conv_index])
 	
 	
+	def set_exit_stat(self,new_exit_stat):
+		if self.exit_stat==os.EX_OK :
+			self.exit_stat=new_exit_stat
+	
+	
 	def run(self):
 		"""operates the software object"""		
 		if self.pathname==CMD_PIPE_ARG :
@@ -110,13 +118,16 @@ class Application():
 					break
 		else :
 			self.proceed(self.pathname)
-			
-			
+		return self.exit_stat
+	
+	
 	def proceed(self,pathname):
 		"""operate on one pathname"""
 		if not checks.pathname(pathname) and self.type=="auto" :
 			logger.log_error(LOG1.format(pathname))
+			self.set_exit_stat(os.EX_NOINPUT) # input file did not exist or was not readable.
 		else :
+			
 			path=pathnames.get_path(pathname)
 			if self.type=="file" :
 				tip=checks.TYPE_FILE
@@ -125,34 +136,38 @@ class Application():
 			else :
 				### self.type=="auto"
 				tip=checks.get_type(pathname)
-			full_name=pathnames.get_name(pathname)
-			#print(full_name)
-			exts_names=[ext for ext in pathnames.get_name_ext(pathname) if ext ]
-			#print(exts_names)
-			base_name=pathnames.get_base_name(pathname)
-			#print(base_name)
-			logger.log_info(LOG2.format(tip,full_name))
-			cfg_tip=self.cfg[tip]
-			renamer=main.Main()
-			new_names=renamer.get_correct_name(base_name,exts_names,cfg_tip,self.sp_conv)
-			new_name=pathnames.join_base_name_ext(new_names[0],new_names[1:])
-			logger.log_info(LOG3.format(new_name))
-			logger.log_info(LOG4.format(self.mode))
-			if self.mode==MODE_CHECK :
-				if not new_name==full_name :
-					tty.print_info(pathname)
-					#return  os.EX_DATAERR #	Exit code that means the input data was incorrect.
-			elif self.mode==MODE_RETURN :
-				tty.print_info(new_name)
-			elif self.mode==MODE_WRITE :
-				if not new_name==full_name :
-					try :
-						### must start by changing the name of the files, otherwise problem with new folders names
-						actions.rename(path,full_name,new_name)
-					except FileExistsError :
-						logger.log_error( LOG5.format(pathnames.join_pathname(path,new_name)) )
+				
+			if not tip in (checks.TYPE_FILE,checks.TYPE_DIRECTORY) :
+				logger.log_error(LOG7.format(pathname))
+				self.set_exit_stat(os.EX_DATAERR) # the input data was incorrect.
 			else :
-				pass
-		
-		return os.EX_OK
-
+				
+				full_name=pathnames.get_name(pathname)
+				#print(full_name)
+				exts_names=[ext for ext in pathnames.get_name_ext(pathname) if ext ]
+				#print(exts_names)
+				base_name=pathnames.get_base_name(pathname)
+				#print(base_name)
+				logger.log_info(LOG2.format(tip,full_name))
+				cfg_tip=self.cfg[tip]
+				renamer=main.Main()
+				new_names=renamer.get_correct_name(base_name,exts_names,cfg_tip,self.sp_conv)
+				new_name=pathnames.join_base_name_ext(new_names[0],new_names[1:])
+				logger.log_info(LOG3.format(new_name))
+				logger.log_info(LOG4.format(self.mode))
+				if self.mode==MODE_CHECK :
+					if not new_name==full_name :
+						tty.print_info(pathname)
+				elif self.mode==MODE_RETURN :
+					tty.print_info(new_name)
+				elif self.mode==MODE_WRITE :
+					if not new_name==full_name :
+						try :
+							### must start by changing the name of the files, otherwise problem with new folders names
+							actions.rename(path,full_name,new_name)
+						except FileExistsError :
+							logger.log_error( LOG5.format(pathnames.join_pathname(path,new_name)) )
+							self.set_exit_stat(os.EX_CANTCREAT) # a user specified output file could not be created.
+				else :
+					logger.log_error( LOG6.format(self.mode) )
+					self.set_exit_stat(os.EX_USAGE) # the command was used incorrectly, such as when the wrong number of arguments are given.
