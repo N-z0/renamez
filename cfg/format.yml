@@ -26,7 +26,7 @@ APPLICATION:
    type: str
    qantum: 1
    choices: ['check','return','write']
-   default: 1
+   default: 'return'
    help: "can choose mode: check, return or write"
    
  - name: sp_conv
@@ -46,7 +46,7 @@ APPLICATION:
    type: str
    qantum: 1
    choices: ['file','folder','auto']
-   default: 2
+   default: 'auto'
    help: "can choose the type of pathname"
    
 
