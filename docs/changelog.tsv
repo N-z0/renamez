@@ -1,3 +1,4 @@
 #date	#version	#title	#comment
 2021/8/21	1.0.0	Rz1	Not perfect yet;Should work in most cases
 2021/10/12	1.0.1	Fx1	Fix symlink issue and exit status
+2021/11/8	2.0.0	Up1	Make changes for commonz3

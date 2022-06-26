@@ -1,0 +1,281 @@
+### program settings
+###
+### comment lines with #
+### tab characters are strictly prohibited for indentation
+
+
+
+### 
+ARG:
+   
+ - name: pathname
+   category: argument
+   type: str
+   qantum: 1
+   help: "input file or directory (substituted by - for using pipe input)"
+   
+
+
+### 
+APPLICATION:
+   
+ - name: mode
+   category: choice
+   shortflag: o
+   longflag: mode
+   type: str
+   qantum: 1
+   choices: ['check','return','write']
+   default: 1
+   help: "can choose mode: check, return or write"
+   
+ - name: sp_conv
+   category: valu
+   shortflag: sc
+   longflag: sp_conv
+   type: str
+   qantum: 1
+   default: ''
+   help: "replace special characters by something else"
+   symbols: STRING
+   
+ - name: type
+   category: choice
+   shortflag: t
+   longflag: type
+   type: str
+   qantum: 1
+   choices: ['file','folder','auto']
+   default: 2
+   help: "can choose the type of pathname"
+   
+
+
+### 
+DIRECTORIES:
+   
+ - name: uncode
+   category: positiv_flag
+   shortflag: U
+   longflag: dir_uncode
+   help: "decode URL special characters in directories names"
+   
+ - name: ascii
+   category: positiv_flag
+   shortflag: A
+   longflag: dir_ascii
+   help: "not allow accented characters in directories names"
+   
+ - name: spaces
+   category: positiv_flag
+   shortflag: B
+   longflag: dir_spaces
+   help: "allow space in directories names"
+   
+ - name: case
+   category: valu
+   shortflag: C
+   longflag: dir_case
+   type: int
+   qantum: 1
+   default: 0
+   help: "switch directories characters names case (1=upper,-1=lower,0=no change)"
+   symbols: NUMBER
+   
+ - name: ext
+   category: valu
+   shortflag: E
+   longflag: dir_ext
+   type: int
+   qantum: 1
+   default: -1
+   help: "maximum numbers of .ext next to directories names ( -1 any )"
+   symbols: NUMBER
+   
+ - name: merge
+   category: valu
+   shortflag: M
+   longflag: dir_merge
+   type: str
+   qantum: 1
+   default: ''
+   help: "merge duplicates characters in directories names (ex: -- becomes -)"
+   symbols: STRING
+   
+ - name: eraze
+   category: valu
+   shortflag: D
+   longflag: dir_eraze
+   type: str
+   qantum: 1
+   default: ''
+   help: "delete specified characters in the directories names"
+   symbols: STRING
+   
+ - name: strip
+   category: valu
+   shortflag: S
+   longflag: dir_strip
+   type: str
+   qantum: 1
+   default: ''
+   help: "remove characters at the beginning or end of directories names"
+   symbols: STRING
+   
+ - name: conv
+   category: valu
+   shortflag: R
+   longflag: dir_conv
+   type: str
+   qantum: 1
+   default: ''
+   help: "replace characters or strings in directories names"
+   symbols: STRING
+   
+ - name: conv_ext
+   category: valu
+   shortflag: RE
+   longflag: dir_conv_ext
+   type: str
+   qantum: 1
+   default: ''
+   help: "replace characters or strings in directories names extensions"
+   symbols: STRING
+
+
+### 
+FILES:
+   
+ - name: uncode
+   category: positiv_flag
+   shortflag: u
+   longflag: uncode
+   help: "decode URL special characters in files names"
+   
+ - name: ascii
+   category: positiv_flag
+   shortflag: a
+   longflag: ascii
+   help: "not allow accented characters in files names"
+   
+ - name: spaces
+   category: positiv_flag
+   shortflag: b
+   longflag: spaces
+   help: "allow space in files names"
+   
+ - name: case
+   category: valu
+   shortflag: c
+   longflag: case
+   type: int
+   qantum: 1
+   default: 0
+   help: "switch files characters names case (1=upper,-1=lower,0=no change)"
+   symbols: NUMBER
+   
+ - name: ext
+   category: valu
+   shortflag: e
+   longflag: ext
+   type: int
+   qantum: 1
+   default: -1
+   help: "maximum numbers of .ext next to files names ( -1 any )"
+   symbols: NUMBER
+   
+ - name: merge
+   category: valu
+   shortflag: m
+   longflag: merge
+   type: str
+   qantum: 1
+   default: ''
+   help: "merge duplicates characters in files names (ex: -- becomes -)"
+   symbols: STRING
+   
+ - name: eraze
+   category: valu
+   shortflag: d
+   longflag: eraze
+   type: str
+   qantum: 1
+   default: ''
+   help: "delete specified characters in the files names"
+   symbols: STRING
+   
+ - name: strip
+   category: valu
+   shortflag: s
+   longflag: strip
+   type: str
+   qantum: 1
+   default: ''
+   help: "remove characters at the beginning or end of files names"
+   symbols: STRING
+   
+ - name: conv
+   category: valu
+   shortflag: r
+   longflag: conv
+   type: str
+   qantum: 1
+   default: ''
+   help: "replace characters or strings in files names"
+   symbols: STRING
+   
+ - name: conv_ext
+   category: valu
+   shortflag: re
+   longflag: conv_ext
+   type: str
+   qantum: 1
+   default: ''
+   help: "replace characters or strings in files names extensions"
+   symbols: STRING
+
+
+### 
+SYSTEM:
+   
+ - name: local
+   category: positiv_flag
+   shortflag: l
+   longflag: local
+   help: "will not create files outside program directory"
+
+
+### 
+VERBOSITY:
+   
+ - name: logfile
+   category: choice
+   shortflag: fv
+   longflag: logfile_verbosity
+   type: int
+   qantum: 1
+   choices: [0,1,2,3,4,5]
+   default: 0
+   help: "output verbosity level"
+   
+ - name: terminal
+   category: choice
+   shortflag: tv
+   longflag: terminal_verbosity
+   type: int
+   qantum: 1
+   choices: [0,1,2,3,4,5]
+   default: 0
+   help: "output verbosity level"
+   
+ - name: syslog
+   category: choice
+   shortflag: sv
+   longflag: syslog_verbosity
+   type: int
+   qantum: 1
+   choices: [0,1,2,3,4,5]
+   default: 0
+   help: "output verbosity level"
+
+
